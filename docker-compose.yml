@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+   cms:
+     depends_on:
+       - db
+     build:
+       context: ./
+       dockerfile: dockerfile-cms
+     ports:
+       - "5000:5000"
+     restart: always
+     environment:
+       DEBUG: ${DEBUG}
+       SQLALCHEMY_DATABASE_URI: ${SQLALCHEMY_DATABASE_URI}
+       SECRET_KEY: ${SECRET_KEY}
+
+   #vue:
+   #  depends_on:
+   #    - cms
+   #  build:
+   #    context: ./
+   #    dockerfile: dockerfile-vue
+   #  ports:
+   #    - "5050:8080"
+   #  restart: always
+
+   db:
+     image: mysql:5.7
+     volumes:
+       - ./db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+       MYSQL_DATABASE: cms
+       MYSQL_USER: cms
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+

@@ -1,0 +1,16 @@
+# ------------------------------------------------------
+#                       Dockerfile
+# ------------------------------------------------------
+# image:    lin-cms-docker
+# name:     cic1988/lin-cms-docker
+# authors:  gaoyuanhot@gmail.com
+# ------------------------------------------------------
+
+FROM python:3.7-slim
+
+WORKDIR /lin-cms
+
+COPY . /lin-cms/
+RUN pip install -r requirements.txt && pip install waitress
+
+ENTRYPOINT ["python", "/lin-cms/starter.py"]

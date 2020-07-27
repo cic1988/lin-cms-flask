@@ -3,9 +3,17 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import os
 from app.app import create_app
 
-app = create_app(environment='development')
+deploy = os.getenv('DEBUG')
+
+if deploy == '1':
+    deploy = 'development'
+else:
+    deploy = 'production'
+
+app = create_app(environment=deploy)
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
@@ -18,4 +26,8 @@ def lin_slogan():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    if deploy == 'development':
+        app.run(host="0.0.0.0", port=5000, debug=True)
+    else:
+        from waitress import serve
+        serve(app, host="0.0.0.0", port=5000)
