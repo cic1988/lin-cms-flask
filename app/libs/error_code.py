@@ -16,3 +16,15 @@ class RefreshException(APIException):
     code = 401
     msg = "refresh token 获取失败"
     error_code = 10100
+
+
+class CategoryNotFound(APIException):
+    code = 404  # http状态码
+    msg = 'category not found'  # 异常信息
+    error_code = 80010  # 约定的异常码
+
+
+class VideoNotFound(APIException):
+    code = 404  # http状态码
+    msg = 'video not found'  # 异常信息
+    error_code = 80010  # 约定的异常码   
